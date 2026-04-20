@@ -59,4 +59,5 @@ private String apellidoMaterno;
     public int hashCode() {
         return Objects.hash(tratamiento, nombres, apellidoPaterno, apellidoMaterno);
     }
+    // Clases agregadas a develop
 }
