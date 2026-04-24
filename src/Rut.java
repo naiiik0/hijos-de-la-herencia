@@ -3,7 +3,7 @@ public class Rut {
     private char dv ;
 
     public Rut (int num, char dv){
-        this.numero = numero;
+        this.numero = num;
         this.dv = dv ;
 
     }

@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Persona {
     private IdPersona idPersona;
     private Nombre nombreCompleto;
@@ -16,10 +18,6 @@ public class Persona {
         return nombreCompleto;
     }
 
-    public void setIdPersona(IdPersona idPersona) {
-        this.idPersona = idPersona;
-    }
-
     public String getTelefono() {
         return telefono;
     }
@@ -34,6 +32,18 @@ public class Persona {
 
     @Override
     public String toString() {
-        return  nombreCompleto + "-"+ telefono;
+        return idPersona + ", " + nombreCompleto + ", "+ telefono;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Persona persona = (Persona) o;
+        return Objects.equals(idPersona, persona.idPersona);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(idPersona);
     }
 }

@@ -9,23 +9,26 @@ public class Venta {
     private Cliente cliente;
     private ArrayList<Pasaje> pasajes;
 
-    public Venta(String id, TipoDocumento tipo, LocalDate fecha, Cliente cliente) {
+    public Venta(String id, TipoDocumento tipo, LocalDate fec, Cliente cli) {
         this.idDocumento = id;
         this.tipo = tipo;
-        this.fecha = fecha;
-        this.cliente = cliente;
+        this.fecha = fec;
+        this.cliente = cli;
         this.pasajes = new ArrayList<>();
+        cli.addVenta(this);
     }
     public String getIdDocumento (){
-
+        return idDocumento;
     }
 
     public TipoDocumento getTipo() {
         return tipo;
     }
+
     public LocalDate getFecha() {
         return fecha;
     }
+
     public Cliente getCliente() {
         return cliente;
     }
