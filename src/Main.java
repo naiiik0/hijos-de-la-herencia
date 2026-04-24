@@ -66,7 +66,7 @@ public class Main {
 
 
     public static void crearViaje() {
-        System.out.println("=== CREAR VIAJE ===");
+        System.out.println("Crear Viaje ");
 
         System.out.print("Fecha (dd/mm/aaaa): ");
         String fecha = sc.nextLine();
