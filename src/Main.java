@@ -42,7 +42,7 @@ public class Main {
 
 
     public static void crearBus() {
-        System.out.println("=== CREAR BUS ===");
+        System.out.println("Crear Bus");
 
         System.out.print("Patente: ");
         String patente = sc.nextLine();
