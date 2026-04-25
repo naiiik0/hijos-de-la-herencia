@@ -7,12 +7,14 @@ public class Viaje {
     private LocalTime hora;
     private int precio;
     private Bus bus;
+    private ArrayList<Pasaje> pasajes;
 
     public Viaje (LocalDate fecha, LocalTime hora, int precio, Bus bus){
         this.fecha = fecha;
         this.hora = hora;
         this.precio = precio;
         this.bus = bus;
+        this.pasajes = new ArrayList<>();
         bus.addViaje(this);
     }
 
@@ -34,11 +36,11 @@ public class Viaje {
     public Bus getBus(){
         return bus;
     }
-    public String[][] getAsientos(){
+    public int[][] getAsientos() {
         int totalAsientos = bus.getNroAsientos();
         int[][] asientos = new int[totalAsientos][2];
         for (int i = 0; i < totalAsientos; i++) {
-            asientos[i][0] = i + 1:
+            asientos[i][0] = i + 1;
             asientos[i][1] = 0;
         }
         for (Pasaje p : pasajes) {
@@ -55,11 +57,11 @@ public class Viaje {
     }
     public String[][] getListaPasajeros(){
         String[][] lista = new String[pasajes.size()][5];
-        for (int i = 0; i < pasajes.size; i++) {
+        for (int i = 0; i < pasajes.size(); i++) {
             Pasaje p = pasajes.get(i);
             Pasajero pasajero =p.getPasajero();
             lista[i][0] = String.valueOf(p.getAsiento());
-            lista[i][1] = pasajero.getIdPersona().toString():
+            lista[i][1] = pasajero.getIdPersona().toString();
             lista[i][2] = pasajero.getNombreCompleto().toString();
             lista[i][3] = (pasajero.getNomContacto() != null) ? pasajero.getNomContacto().toString() : "";
             lista[i][4] = (pasajero.getFonoContacto() != null) ? pasajero.getFonoContacto() : "";
