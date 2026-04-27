@@ -1,5 +1,5 @@
 import java.util.Objects;
-
+//Autores: Juan Bustos - Nicolás Figueroa
 public class Persona {
     private IdPersona idPersona;
     private Nombre nombreCompleto;

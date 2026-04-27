@@ -1,3 +1,4 @@
+//Autor: Sofia Lagos
 public class Pasajero extends Persona{
     private Nombre nomContacto;
     private String fonoContacto;

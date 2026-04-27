@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-
+//Autores: Sofia Lagos - Nicolás Figueroa
 public class Cliente extends Persona{
     private String email;
     private List<Venta> ventas;

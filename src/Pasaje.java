@@ -1,5 +1,5 @@
 import java.util.UUID;
-
+//Autor: Nicolás Figueroa
 public class Pasaje {
     private long numero;
     private int asiento;

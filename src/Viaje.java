@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-
+//Autores: Sofia Lagos - Nicolás Figueroa
 public class Viaje {
     private LocalDate fecha;
     private LocalTime hora;

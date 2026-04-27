@@ -1,3 +1,4 @@
+//Autor: Yamilet Arias - Nicolás Figueroa
 public class Rut implements IdPersona {
     private int numero;
     private char dv ;

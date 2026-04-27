@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+//Autor: Yamilet Arias
 public class Venta {
 
     private String idDocumento;

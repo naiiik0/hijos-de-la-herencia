@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-
+//Autores: Juan Bustos - Nicolás Figueroa
 public class SistemaVentaPasajes {
 
     private ArrayList<Cliente> clientes;

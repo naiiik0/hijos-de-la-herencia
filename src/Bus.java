@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+//Autores: Juan Bustos - Nicolás Figueroa
 public class Bus {
     private String patente;
     private String marca;
