@@ -14,9 +14,6 @@ public class Bus {
     }
 
 
-    @Override
-    public String toString() {
-        return "patente"+ patente
 
     }
 }
