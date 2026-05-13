@@ -1,6 +1,6 @@
 package Avance2;
 
-//Autores: Juan Bustos
+//Autor: Juan Bustos
 
 public class Terminal {
 
