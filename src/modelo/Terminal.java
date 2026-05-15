@@ -1,4 +1,4 @@
-package Avance2;
+package modelo;
 
 //Autores: Juan Bustos
 

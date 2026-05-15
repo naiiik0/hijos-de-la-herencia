@@ -1,3 +1,12 @@
+package controlador;
+
+import modelo.Bus;
+import modelo.Cliente;
+import modelo.Pasaje;
+import modelo.Pasajero;
+import utilidades.IdPersona;
+import utilidades.Nombre;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
