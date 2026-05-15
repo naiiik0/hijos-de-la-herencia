@@ -1,8 +1,14 @@
+package vista;
+import controlador.ControladorEmpresas;
+import controlador.SistemaVentaPasajes;
+import excepciones.SistemaVentaPasajesException;
+import modelo.Cliente;
+import modelo.TipoDocumento;
+import utilidades.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Optional;
 

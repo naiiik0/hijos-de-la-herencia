@@ -1,9 +1,7 @@
 package controlador;
 
-import modelo.Bus;
-import modelo.Cliente;
-import modelo.Pasaje;
-import modelo.Pasajero;
+import excepciones.SistemaVentaPasajesException;
+import modelo.*;
 import utilidades.IdPersona;
 import utilidades.Nombre;
 

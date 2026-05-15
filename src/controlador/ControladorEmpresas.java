@@ -1,3 +1,10 @@
+package controlador;
+import excepciones.SistemaVentaPasajesException;
+import modelo.Bus;
+import modelo.Terminal;
+import utilidades.Rut;
+import utilidades.IdPersona;
+import utilidades.Nombre;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
