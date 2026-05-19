@@ -1,5 +1,7 @@
-import java.util.Objects;
+package utilidades;
 
+import java.util.Objects;
+//Autor: Nicolás Figueroa
 public class Nombre {
 private Tratamiento tratamiento;
 private String nombres;

@@ -1,6 +1,8 @@
+package modelo;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+//Autor: Yamilet Arias
 public class Venta {
 
     private String idDocumento;
@@ -35,7 +37,7 @@ public class Venta {
         return cliente;
     }
     public void createPasaje(int asiento, Viaje viaje, Pasajero pasajero) {
-        Pasaje p = new Pasaje(asiento, viaje, pasajero);
+        Pasaje p = new Pasaje(asiento, viaje, pasajero, this);
         pasajes.add(p);
     }
     public Pasaje[] getPasajes() {
@@ -44,7 +46,7 @@ public class Venta {
     public int getMonto() {
         int total = 0;
         for (Pasaje p : pasajes) {
-            total += p.getPrecio();
+            total += p.getViaje().getPrecio();
         }
         return total;
     }

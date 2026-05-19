@@ -1,5 +1,7 @@
+package utilidades;
 
-public class Pasaporte {
+//Autor: Yamilet Arias
+public class Pasaporte implements IdPersona {
 
     private String numero;
     private String nacionalidad;
