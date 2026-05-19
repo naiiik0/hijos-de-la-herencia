@@ -10,6 +10,7 @@ public class Venta {
     private LocalDate fecha;
     private Cliente cliente;
     private ArrayList<Pasaje> pasajes;
+    private Pago pago;
 
     public Venta(String id, TipoDocumento tipo, LocalDate fec, Cliente cli) {
         this.idDocumento = id;
@@ -18,6 +19,7 @@ public class Venta {
         this.cliente = cli;
         this.pasajes = new ArrayList<>();
         cli.addVenta(this);
+        pago = null;
     }
     public String getIdDocumento (){
         return idDocumento;
@@ -48,5 +50,40 @@ public class Venta {
         }
         return total;
     }
-    
+    public boolean pagaMonto() {
+
+        if (pago != null) {
+
+            return false;
+        }
+
+        pago = new PagoEfectivo(getMonto());
+
+        return true;
+    }
+    public boolean pagaMonto(String nroTarjeta) {
+
+        if (pago != null) {
+
+            return false;
+        }
+
+        pago = new PagoTarjeta(
+                getMonto(),
+                nroTarjeta
+        );
+
+        return true;
+    }
+
+    public String getTipoPago() {
+
+        if (pago == null) {
+
+            return null;
+        }
+
+        return pago.getTipoPago();
+    }
+
 }
