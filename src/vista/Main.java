@@ -3,6 +3,7 @@ import controlador.ControladorEmpresas;
 import controlador.SistemaVentaPasajes;
 import excepciones.SistemaVentaPasajesException;
 import modelo.Cliente;
+import modelo.Direccion;
 import modelo.TipoDocumento;
 import utilidades.*;
 import java.time.LocalDate;
