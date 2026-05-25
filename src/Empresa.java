@@ -1,3 +1,6 @@
+package modelo;
+import utilidades.Nombre;
+
 import java.util.ArrayList;
  // Autor: Yamilet Arias
 public class Empresa {
