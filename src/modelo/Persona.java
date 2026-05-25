@@ -4,7 +4,7 @@ import java.util.Objects;
 import utilidades.IdPersona;
 import utilidades.Nombre;
 //Autores: Juan Bustos - Nicolás Figueroa
-public class Persona {
+public abstract class Persona {
     private IdPersona idPersona;
     private Nombre nombreCompleto;
     private String telefono;
