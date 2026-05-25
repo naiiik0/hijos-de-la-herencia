@@ -1,3 +1,5 @@
+package modelo;
+
 import java.util.ArrayList;
 //Autores: Juan Bustos - Nicolás Figueroa
 public class Bus {

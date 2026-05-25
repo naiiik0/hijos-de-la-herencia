@@ -1,4 +1,8 @@
+package modelo;
+
 import java.util.Objects;
+import utilidades.IdPersona;
+import utilidades.Nombre;
 //Autores: Juan Bustos - Nicolás Figueroa
 public class Persona {
     private IdPersona idPersona;
