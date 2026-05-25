@@ -1,3 +1,5 @@
+package modelo;
+
 import java.util.UUID;
 //Autor: Nicolás Figueroa
 public class Pasaje {
