@@ -6,7 +6,7 @@ import utilidades.Rut;
 import java.util.ArrayList;
  // Autor: Yamilet Arias
 public class Empresa {
-    private String rut;
+    private Rut rut;
     private String nombre;
     private String url;
 
@@ -23,7 +23,7 @@ public class Empresa {
          this.auxiliares = new ArrayList<>();
      }
 
-    public String getRut() {
+    public Rut getRut() {
         return rut;
     }
 
