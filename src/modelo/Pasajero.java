@@ -1,3 +1,8 @@
+package modelo;
+
+import utilidades.IdPersona;
+import utilidades.Nombre;
+
 //Autor: Sofia Lagos
 public class Pasajero extends Persona{
     private Nombre nomContacto;

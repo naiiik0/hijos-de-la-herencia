@@ -1,6 +1,6 @@
-package Avance2;
+package modelo;
 //  Autor : Juan Bustos
-public class Pago {
+public abstract class Pago {
     private int monto;
 
     public Pago(int monto) {
@@ -14,4 +14,6 @@ public class Pago {
     public void setMonto(int monto) {
         this.monto = monto;
     }
+    public abstract String getTipoPago();
+
 }

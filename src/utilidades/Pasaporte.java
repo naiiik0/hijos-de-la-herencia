@@ -1,3 +1,5 @@
+package utilidades;
+
 //Autor: Yamilet Arias
 public class Pasaporte implements IdPersona {
 

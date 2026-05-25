@@ -1,3 +1,5 @@
+package utilidades;
+
 import java.util.Objects;
 //Autor: Nicolás Figueroa
 public class Nombre {
