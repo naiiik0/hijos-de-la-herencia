@@ -90,6 +90,7 @@ public class ControladorEmpresas {
             resultado[i][2] = e.getUrl();
             resultado[i][3] = String.valueOf(e.getTripulantes().length);
             resultado[i][4] = String.valueOf(e.getBuses().length);
+            resultado[i][5] = String.valueOf(e.getVentas().length);
         }
         return resultado;
     }
