@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+//Autor: Sofia Lagos
+
 public class Conductor extends Tripulante{
     private final List<Viaje> viajes = new ArrayList<>();
 
