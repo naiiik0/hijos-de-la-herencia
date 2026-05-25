@@ -4,6 +4,7 @@ import excepciones.SistemaVentaPasajesException;
 import modelo.*;
 import utilidades.IdPersona;
 import utilidades.Nombre;
+import utilidades.Rut;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

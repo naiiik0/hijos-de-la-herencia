@@ -1,3 +1,8 @@
+package modelo;
+
+import utilidades.IdPersona;
+import utilidades.Nombre;
+
 public abstract class Tripulante extends Persona {
     private Direccion direccion;
 
