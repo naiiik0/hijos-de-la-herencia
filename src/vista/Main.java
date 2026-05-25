@@ -101,7 +101,7 @@ public class Main {
         }
     }
     private static void contratarTripulante() {
-        System.out.println("...::::: Contratando un nuevo Tripulante :::::....");
+        System.out.println("...::::: Contratando un nuevo modelo.Tripulante :::::....");
         System.out.println();
         System.out.println(":::: Dato de la Empresa");
         System.out.print("         R.U.T : ");
@@ -109,7 +109,7 @@ public class Main {
         if (rutEmp == null) { System.out.println("  [!] RUT inválido."); return; }
         System.out.println();
         System.out.println(":::: Datos tripulante");
-        System.out.print("Auxiliar[1] o Conductor[2] : ");
+        System.out.print("modelo.Auxiliar[1] o modelo.Conductor[2] : ");
         int tipoTrip = leerEnteroRango(1, 2);
         System.out.print("   Rut[1] o Pasaporte[2] : ");
         int tipoId = leerEnteroRango(1, 2);
@@ -141,11 +141,11 @@ public class Main {
             if (tipoTrip == 1) {
                 controladorEmpresas.hireAuxiliarForEmpresa(rutEmp, id, nom, dir);
                 System.out.println();
-                System.out.println("...::::: Auxiliar contratado exitosamente :::::....");
+                System.out.println("...::::: modelo.Auxiliar contratado exitosamente :::::....");
             } else {
                 controladorEmpresas.hireConductorForEmpresa(rutEmp, id, nom, dir);
                 System.out.println();
-                System.out.println("...::::: Conductor contratado exitosamente :::::....");
+                System.out.println("...::::: modelo.Conductor contratado exitosamente :::::....");
             }
         } catch (SistemaVentaPasajesException e) {
             System.out.println("  [!] " + e.getMessage());
@@ -340,14 +340,14 @@ public class Main {
         int nroConductores = leerEnteroRango(1, 2);
         int totalTripulantes = 1 + nroConductores;
         String[] idTripulantes = new String[totalTripulantes];
-        System.out.println("     :: Id Auxiliar ::");
+        System.out.println("     :: Id modelo.Auxiliar ::");
         System.out.print("  Rut[1] o Pasaporte[2] : ");
         int tipoAux = leerEnteroRango(1, 2);
         IdPersona idAux = leerIdPersona(tipoAux);
         if (idAux == null) { System.out.println("  [!] Identificador inválido."); return; }
         idTripulantes[0] = idAux.toString();
         for (int i = 1; i <= nroConductores; i++) {
-            System.out.println("     :: Id Conductor ::");
+            System.out.println("     :: Id modelo.Conductor ::");
             System.out.print("  Rut[1] o Pasaporte[2] : ");
             int tipoCond = leerEnteroRango(1, 2);
             IdPersona idCond = leerIdPersona(tipoCond);

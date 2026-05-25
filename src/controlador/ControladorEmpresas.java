@@ -1,7 +1,6 @@
 package controlador;
 import excepciones.SistemaVentaPasajesException;
-import modelo.Bus;
-import modelo.Terminal;
+import modelo.*;
 import utilidades.Rut;
 import utilidades.IdPersona;
 import utilidades.Nombre;
