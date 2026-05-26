@@ -532,9 +532,15 @@ public class Main {
             return; }
         System.out.print("              Patente bus : ");
         String patente = sc.nextLine().trim();
-        String[][] pasajeros = sistema.listPasajerosViaje(fecha, hora, patente);
+        String[][] pasajeros;
+        try {
+            pasajeros = sistema.listPasajerosViaje(fecha, hora, patente);
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println("  [!] " + e.getMessage());
+            return;
+        }
         if (pasajeros.length == 0) {
-            System.out.println("  [!] No existe el bus o un viaje con los datos indicados.");
+            System.out.println("  [!] No hay pasajeros registrados para ese viaje.");
             return;
         }
         String sep = "*----------*------------------*--------------------------------*--------------------------------*--------------------*";
