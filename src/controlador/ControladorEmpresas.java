@@ -82,7 +82,7 @@ public class ControladorEmpresas {
     }
 
     public String[][] listEmpresas() {
-        String[][] resultado = new String[empresas.size()][5];
+        String[][] resultado = new String[empresas.size()][6];
         for (int i = 0; i < empresas.size(); i++) {
             Empresa e = empresas.get(i);
             resultado[i][0] = e.getRut().toString();
@@ -90,6 +90,7 @@ public class ControladorEmpresas {
             resultado[i][2] = e.getUrl();
             resultado[i][3] = String.valueOf(e.getTripulantes().length);
             resultado[i][4] = String.valueOf(e.getBuses().length);
+            resultado[i][5] = String.valueOf(e.getVentas().length);
         }
         return resultado;
     }
