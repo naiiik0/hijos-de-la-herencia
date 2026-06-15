@@ -1,9 +1,10 @@
 package modelo;
-import utilidades.Nombre;
 
+import java.io.Serializable;
 import java.util.ArrayList;
- // Autor: Yamilet Arias
-public class Empresa {
+
+public class Empresa implements Serializable {
+
     private String rut;
     private String nombre;
     private String url;
@@ -13,7 +14,6 @@ public class Empresa {
     private ArrayList<Auxiliar> auxiliares;
 
     public Empresa(String rut, String nombre, String url) {
-
         this.rut = rut;
         this.nombre = nombre;
         this.url = url;
@@ -39,51 +39,47 @@ public class Empresa {
         buses.add(bus);
     }
 
-    public boolean addConductor(String id, Nombre nombre, String telefono, int añosExperiencia) {
+    public Bus[] getBuses() {
+        return buses.toArray(new Bus[0]);
+    }
+
+    public boolean addConductor(String id, Nombre nombre,
+                                String telefono, int aniosExperiencia) {
 
         for (Conductor conductor : conductores) {
-
             if (conductor.getIdPersona().equals(id)) {
                 return false;
             }
         }
 
         for (Auxiliar auxiliar : auxiliares) {
-
             if (auxiliar.getIdPersona().equals(id)) {
                 return false;
             }
         }
 
-        Conductor nuevo = new Conductor(id, nombre, telefono, añosExperiencia);
-
-        conductores.add(nuevo);
+        conductores.add(new Conductor(id, nombre,
+                telefono, aniosExperiencia));
 
         return true;
     }
 
-    public boolean addAuxiliar(String id, Nombre nombre, String telefono) {
+    public boolean addAuxiliar(String id, Nombre nombre,
+                               String telefono) {
 
         for (Conductor conductor : conductores) {
-
             if (conductor.getIdPersona().equals(id)) {
                 return false;
             }
         }
 
         for (Auxiliar auxiliar : auxiliares) {
-
             if (auxiliar.getIdPersona().equals(id)) {
                 return false;
             }
         }
 
-        Auxiliar nuevo =
-                new Auxiliar(id,
-                        nombre,
-                        telefono);
-
-        auxiliares.add(nuevo);
+        auxiliares.add(new Auxiliar(id, nombre, telefono));
 
         return true;
     }
@@ -91,21 +87,16 @@ public class Empresa {
     public Tripulante[] getTripulantes() {
 
         Tripulante[] lista =
-                new Tripulante[conductores.size()
-                        + auxiliares.size()];
+                new Tripulante[conductores.size() + auxiliares.size()];
 
         int i = 0;
 
         for (Conductor conductor : conductores) {
-
-            lista[i] = conductor;
-            i++;
+            lista[i++] = conductor;
         }
 
         for (Auxiliar auxiliar : auxiliares) {
-
-            lista[i] = auxiliar;
-            i++;
+            lista[i++] = auxiliar;
         }
 
         return lista;
@@ -116,11 +107,8 @@ public class Empresa {
         ArrayList<Venta> ventas = new ArrayList<>();
 
         for (Bus bus : buses) {
-
             for (Viaje viaje : bus.getViajes()) {
-
                 for (Venta venta : viaje.getVentas()) {
-
                     if (!ventas.contains(venta)) {
                         ventas.add(venta);
                     }
@@ -128,13 +116,6 @@ public class Empresa {
             }
         }
 
-        Venta[] arreglo = new Venta[ventas.size()];
-
-        for (int i = 0; i < ventas.size(); i++) {
-
-            arreglo[i] = ventas.get(i);
-        }
-
-        return arreglo;
+        return ventas.toArray(new Venta[0]);
     }
-} }
+}
