@@ -18,21 +18,18 @@ public class Venta {
         this.fecha = fec;
         this.cliente = cli;
         this.pasajes = new ArrayList<>();
+        this.pago = null;
         cli.addVenta(this);
-        pago = null;
     }
     public String getIdDocumento (){
         return idDocumento;
     }
-
     public TipoDocumento getTipo() {
         return tipo;
     }
-
     public LocalDate getFecha() {
         return fecha;
     }
-
     public Cliente getCliente() {
         return cliente;
     }
@@ -51,39 +48,31 @@ public class Venta {
         return total;
     }
     public boolean pagaMonto() {
-
         if (pago != null) {
-
             return false;
         }
-
         pago = new PagoEfectivo(getMonto());
-
         return true;
     }
-    public boolean pagaMonto(String nroTarjeta) {
-
+    public boolean pagaMonto(long nroTarjeta) {
         if (pago != null) {
-
             return false;
         }
-
         pago = new PagoTarjeta(
                 getMonto(),
                 nroTarjeta
         );
-
         return true;
     }
 
     public String getTipoPago() {
-
         if (pago == null) {
-
             return null;
         }
-
         return pago.getTipoPago();
     }
-
+    public int getMontoPagado() {
+        if (pago == null) return 0;
+        return pago.getMonto();
+    }
 }

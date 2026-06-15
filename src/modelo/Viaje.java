@@ -131,4 +131,12 @@ public class Viaje {
 
         return salida.plusMinutes(duracionMinutos);
     }
+    public Venta[] getVentas() {
+        ArrayList<Venta> ventas = new ArrayList<>();
+        for (Pasaje p : pasajes) {
+            Venta v = p.getVenta();
+            if (!ventas.contains(v)) ventas.add(v);
+        }
+        return ventas.toArray(new Venta[0]);
+    }
 }

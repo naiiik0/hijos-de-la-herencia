@@ -1,35 +1,25 @@
 package modelo;
 
-//Autores: Juan Bustos
-
 public class Terminal {
 
     private String nombre;
-    private String comuna;
+    private Direccion direccion;
 
-    public Terminal(String nombre, String comuna) {
+    public Terminal(String nombre, Direccion direccion) {
         this.nombre = nombre;
-        this.comuna = comuna;
+        this.direccion = direccion;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public String getComuna() {
-        return comuna;
-    }
+    public Direccion getDireccion() { return direccion; }
+    public void setDireccion(Direccion direccion) { this.direccion = direccion; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setComuna(String comuna) {
-        this.comuna = comuna;
-    }
+    public String getComuna() { return direccion.getComuna(); }
 
     @Override
     public String toString() {
-        return nombre + " - " + comuna;
+        return nombre + " - " + direccion.toString();
     }
 }

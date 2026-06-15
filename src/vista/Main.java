@@ -3,6 +3,7 @@ import controlador.ControladorEmpresas;
 import controlador.SistemaVentaPasajes;
 import excepciones.SistemaVentaPasajesException;
 import modelo.Cliente;
+import modelo.Direccion;
 import modelo.TipoDocumento;
 import utilidades.*;
 import java.time.LocalDate;
@@ -249,7 +250,7 @@ public class Main {
         System.out.println("|-------------+------------------------------+------------------------------+------------------+-----------+--------------|");
         for (String[] f : empresas) {
             System.out.printf("| %-11s | %-28s | %-28s | %-16s | %-9s | %-12s |%n",
-                    f[0], f[1], f[2], f[3], f[4], "0");
+                    f[0], f[1], f[2], f[3], f[4], f[5]);
             System.out.println("|-------------+------------------------------+------------------------------+------------------+-----------+--------------|");
         }
         System.out.println(sep);
@@ -531,9 +532,15 @@ public class Main {
             return; }
         System.out.print("              Patente bus : ");
         String patente = sc.nextLine().trim();
-        String[][] pasajeros = sistema.listPasajerosViaje(fecha, hora, patente);
+        String[][] pasajeros;
+        try {
+            pasajeros = sistema.listPasajerosViaje(fecha, hora, patente);
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println("  [!] " + e.getMessage());
+            return;
+        }
         if (pasajeros.length == 0) {
-            System.out.println("  [!] No existe el bus o un viaje con los datos indicados.");
+            System.out.println("  [!] No hay pasajeros registrados para ese viaje.");
             return;
         }
         String sep = "*----------*------------------*--------------------------------*--------------------------------*--------------------*";
