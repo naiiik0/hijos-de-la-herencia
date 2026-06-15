@@ -29,7 +29,7 @@ public class IOSVP {
     }
     public Object[] readDatosIniciales() throws SVPException {
         ArrayList<Object> objetos = new ArrayList<>();
-        ArrayList<Empresa> empresas = new ArrayList<>();  // ← aquí
+        ArrayList<Empresa> empresas = new ArrayList<>();
         ArrayList<Terminal> terminales = new ArrayList<>();
         ArrayList<Bus> buses = new ArrayList<>();
 
