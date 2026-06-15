@@ -2,7 +2,7 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+// Autor Yamilet Arias
 public class Empresa implements Serializable {
 
     private String rut;
