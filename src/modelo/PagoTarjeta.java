@@ -2,18 +2,23 @@ package modelo;
 //Autor : Juan Bustos
 public class PagoTarjeta extends Pago {
 
-    private String nroTarjeta;
+    private long nroTarjeta;
 
-    public PagoTarjeta(int monto, String nroTarjeta) {
+    public PagoTarjeta(int monto, long nroTarjeta) {
         super(monto);
         this.nroTarjeta = nroTarjeta;
     }
 
-    public String getNroTarjeta() {
+    public long getNroTarjeta() {
         return nroTarjeta;
     }
 
-    public void setNroTarjeta(String nroTarjeta) {
+    @Override
+    public String getTipoPago() {
+        return "Pago Tarjeta";
+    }
+
+    public void setNroTarjeta(long nroTarjeta) {
         this.nroTarjeta = nroTarjeta;
     }
 }
