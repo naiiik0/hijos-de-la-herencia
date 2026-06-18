@@ -1,8 +1,9 @@
 package vista;
 import controlador.ControladorEmpresas;
 import controlador.SistemaVentaPasajes;
-import excepciones.SistemaVentaPasajesException;
+import excepciones.SVPException;
 import modelo.Cliente;
+import modelo.Direccion;
 import modelo.TipoDocumento;
 import utilidades.*;
 import java.time.LocalDate;
@@ -40,7 +41,8 @@ public class Main {
             System.out.println("  11) Listar empresas");
             System.out.println("  12) Listar llegadas/salidas de terminal");
             System.out.println("  13) Listar ventas de empresa");
-            System.out.println("  14) Salir");
+            System.out.println("  14) Cargar datos");
+            System.out.println("  15) Salir");
             System.out.println("------------------------------------------");
             System.out.print("..:: Ingrese número de opción: ");
             try {
@@ -75,11 +77,24 @@ public class Main {
                 break;
                 case 13: listVentasEmpresa();
                 break;
-                case 14: System.out.println("...:::: Hasta pronto ::::...."); break;
+                case 14: leerDatosIniciales();
+                break;
+                case 15: System.out.println("...:::: Hasta pronto ::::...."); break;
                 default: System.out.println("  [!] Opción inválida. Ingrese un número entre 1 y 14.");
             }
             System.out.println();
-        } while (opcion != 14);
+        } while (opcion != 15);
+    }
+
+    private static void leerDatosIniciales() {
+        System.out.println("...:::: Leyendo datos iniciales del archivo ::::....");
+        try {
+            // El Main solo le pide al sistema que se encargue
+            sistema.readDatosIniciales();
+            System.out.println("  [OK] Datos iniciales cargados con éxito.");
+        } catch (SVPException e) {
+            System.out.println("  [!] " + e.getMessage());
+        }
     }
     private static void crearEmpresa() {
         System.out.println("...::::: Creando una nueva Empresa :::::....");
@@ -96,7 +111,7 @@ public class Main {
             controladorEmpresas.createEmpresa(rut, nombre, url);
             System.out.println();
             System.out.println("...::::: Empresa guardada exitosamente :::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println("  [!] " + e.getMessage());
         }
     }
@@ -147,7 +162,7 @@ public class Main {
                 System.out.println();
                 System.out.println("...::::: Conductor contratado exitosamente :::::....");
             }
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println("  [!] " + e.getMessage());
         }
     }
@@ -173,7 +188,7 @@ public class Main {
             controladorEmpresas.createTerminal(nombre, dir);
             System.out.println();
             System.out.println("...::::: Terminal guardado exitosamente :::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println("  [!] " + e.getMessage());
         }
     }
@@ -202,7 +217,7 @@ public class Main {
             sistema.createCliente(idPersona, nombre, telefono, email);
             System.out.println();
             System.out.println("...::::: Cliente guardado exitosamente :::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println("  [!] " + e.getMessage());
         }
     }
@@ -230,7 +245,7 @@ public class Main {
             controladorEmpresas.createBus(patente, marca, modelo, nroAsientos, rutEmp);
             System.out.println();
             System.out.println("...::::: Bus guardado exitosamente :::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println("  [!] " + e.getMessage());
         }
     }
@@ -249,7 +264,7 @@ public class Main {
         System.out.println("|-------------+------------------------------+------------------------------+------------------+-----------+--------------|");
         for (String[] f : empresas) {
             System.out.printf("| %-11s | %-28s | %-28s | %-16s | %-9s | %-12s |%n",
-                    f[0], f[1], f[2], f[3], f[4], "0");
+                    f[0], f[1], f[2], f[3], f[4], f[5]);
             System.out.println("|-------------+------------------------------+------------------------------+------------------+-----------+--------------|");
         }
         System.out.println(sep);
@@ -280,7 +295,7 @@ public class Main {
                 System.out.println("|----------------+--------+-------------+------------------------------+-----------------|");
             }
             System.out.println(sep);
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println("*** Error: " + e.getMessage() + " ***");
         }
     }
@@ -307,7 +322,7 @@ public class Main {
                 System.out.println("|----------+---------+--------------+---------------|");
             }
             System.out.println(sep);
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println("  [!] " + e.getMessage());
         }
     }
@@ -363,7 +378,7 @@ public class Main {
             sistema.createViaje(fecha, hora, precio, duracion, patente, idTripulantes, comunas);
             System.out.println();
             System.out.println("...::::: Viaje guardado exitosamente :::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println("  [!] " + e.getMessage());
         }
     }
@@ -401,7 +416,7 @@ public class Main {
         LocalDate fechaVenta = LocalDate.now();
         try {
             sistema.iniciaVenta(idDoc, tipo, fechaVenta, idCliente, comunaSalida, comunaLlegada, cantPasajes);
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println("  [!] " + e.getMessage());
             return;
         }
@@ -481,7 +496,7 @@ public class Main {
                 Nombre nombreCont = new Nombre(tCont, nomCont, apPCont, apMCont);
                 try {
                     sistema.createPasajero(idPasajero, nombrePas, telPas, nombreCont, telCont);
-                } catch (SistemaVentaPasajesException e) {
+                } catch (SVPException e) {
                     System.out.println("  [!] " + e.getMessage()); return;
                 }
             }
@@ -489,7 +504,7 @@ public class Main {
                 sistema.vendePasaje(idDoc, tipo, fechaViaje, horaViaje,
                         viajeElegido[0], asientosElegidos[i], idPasajero);
                 System.out.println(":::: Pasaje agregado exitosamente");
-            } catch (SistemaVentaPasajesException e) {
+            } catch (SVPException e) {
                 System.out.println("  [!] " + e.getMessage()); return;
             }
         }
@@ -514,7 +529,7 @@ public class Main {
             }
             System.out.println();
             System.out.println("...::::: Venta realizada exitosamente :::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println("  [!] " + e.getMessage());
         }
     }
@@ -531,9 +546,15 @@ public class Main {
             return; }
         System.out.print("              Patente bus : ");
         String patente = sc.nextLine().trim();
-        String[][] pasajeros = sistema.listPasajerosViaje(fecha, hora, patente);
+        String[][] pasajeros;
+        try {
+            pasajeros = sistema.listPasajerosViaje(fecha, hora, patente);
+        } catch (SVPException e) {
+            System.out.println("  [!] " + e.getMessage());
+            return;
+        }
         if (pasajeros.length == 0) {
-            System.out.println("  [!] No existe el bus o un viaje con los datos indicados.");
+            System.out.println("  [!] No hay pasajeros registrados para ese viaje.");
             return;
         }
         String sep = "*----------*------------------*--------------------------------*--------------------------------*--------------------*";

@@ -1,7 +1,6 @@
 package controlador;
-import excepciones.SistemaVentaPasajesException;
-import modelo.Bus;
-import modelo.Terminal;
+import excepciones.SVPException;
+import modelo.*;
 import utilidades.Rut;
 import utilidades.IdPersona;
 import utilidades.Nombre;
@@ -32,7 +31,7 @@ public class ControladorEmpresas {
 
     public void createEmpresa(Rut rut, String nombre, String url) {
         if (findEmpresa(rut).isPresent()) {
-            throw new SistemaVentaPasajesException("Ya existe empresa con el rut indicado");
+            throw new SVPException("Ya existe empresa con el rut indicado");
         }
         empresas.add(new Empresa(rut, nombre, url));
     }
@@ -40,10 +39,10 @@ public class ControladorEmpresas {
     public void createBus(String patente, String marca, String modelo, int nroAsientos, Rut rutEmp) {
         Optional<Empresa> emp = findEmpresa(rutEmp);
         if (emp.isEmpty()) {
-            throw new SistemaVentaPasajesException("No existe empresa con el rut indicado");
+            throw new SVPException("No existe empresa con el rut indicado");
         }
         if (findBus(patente).isPresent()) {
-            throw new SistemaVentaPasajesException("Ya existe bus con la patente indicada");
+            throw new SVPException("Ya existe bus con la patente indicada");
         }
         Bus b = new Bus(patente, marca, modelo, nroAsientos, emp.get());
         buses.add(b);
@@ -52,10 +51,10 @@ public class ControladorEmpresas {
 
     public void createTerminal(String nombre, Direccion direccion) {
         if (findTerminalNombre(nombre).isPresent()) {
-            throw new SistemaVentaPasajesException("Ya existe terminal con el nombre indicado");
+            throw new SVPException("Ya existe terminal con el nombre indicado");
         }
         if (findTerminalComuna(direccion.getComuna()).isPresent()) {
-            throw new SistemaVentaPasajesException("Ya existe terminal en la comuna indicada");
+            throw new SVPException("Ya existe terminal en la comuna indicada");
         }
         terminales.add(new Terminal(nombre, direccion));
     }
@@ -63,27 +62,27 @@ public class ControladorEmpresas {
     public void hireConductorForEmpresa(Rut rutEmp, IdPersona id, Nombre nom, Direccion dir) {
         Optional<Empresa> emp = findEmpresa(rutEmp);
         if (emp.isEmpty()) {
-            throw new SistemaVentaPasajesException("No existe empresa con el rut indicado");
+            throw new SVPException("No existe empresa con el rut indicado");
         }
         boolean contratado = emp.get().addConductor(id, nom, dir);
         if (!contratado) {
-            throw new SistemaVentaPasajesException("Ya está contratado conductor/auxiliar con el id dado en la empresa señalada");
+            throw new SVPException("Ya está contratado conductor/auxiliar con el id dado en la empresa señalada");
         }
     }
 
     public void hireAuxiliarForEmpresa(Rut rutEmp, IdPersona id, Nombre nom, Direccion dir) {
         Optional<Empresa> emp = findEmpresa(rutEmp);
         if (emp.isEmpty()) {
-            throw new SistemaVentaPasajesException("No existe empresa con el rut indicado");
+            throw new SVPException("No existe empresa con el rut indicado");
         }
         boolean contratado = emp.get().addAuxiliar(id, nom, dir);
         if (!contratado) {
-            throw new SistemaVentaPasajesException("Ya está contratado auxiliar/conductor con el id dado en la empresa señalada");
+            throw new SVPException("Ya está contratado auxiliar/conductor con el id dado en la empresa señalada");
         }
     }
 
     public String[][] listEmpresas() {
-        String[][] resultado = new String[empresas.size()][5];
+        String[][] resultado = new String[empresas.size()][6];
         for (int i = 0; i < empresas.size(); i++) {
             Empresa e = empresas.get(i);
             resultado[i][0] = e.getRut().toString();
@@ -91,6 +90,7 @@ public class ControladorEmpresas {
             resultado[i][2] = e.getUrl();
             resultado[i][3] = String.valueOf(e.getTripulantes().length);
             resultado[i][4] = String.valueOf(e.getBuses().length);
+            resultado[i][5] = String.valueOf(e.getVentas().length);
         }
         return resultado;
     }
@@ -98,7 +98,7 @@ public class ControladorEmpresas {
     public String[][] listLlegadasSalidasTerminal(String nombreTerminal, LocalDate fecha) {
         Optional<Terminal> terminal = findTerminalNombre(nombreTerminal);
         if (terminal.isEmpty()) {
-            throw new SistemaVentaPasajesException("No existe terminal con el nombre indicado");
+            throw new SVPException("No existe terminal con el nombre indicado");
         }
         Terminal t = terminal.get();
         ArrayList<String[]> filas = new ArrayList<>();
@@ -136,7 +136,7 @@ public class ControladorEmpresas {
     public String[][] listVentasEmpresa(Rut rutEmp) {
         Optional<Empresa> emp = findEmpresa(rutEmp);
         if (emp.isEmpty()) {
-            throw new SistemaVentaPasajesException("No existe empresa con el rut indicado");
+            throw new SVPException("No existe empresa con el rut indicado");
         }
         Venta[] ventas = emp.get().getVentas();
         String[][] resultado = new String[ventas.length][4];
@@ -203,5 +203,21 @@ public class ControladorEmpresas {
     private String formatearFecha(LocalDate fecha) {
         return String.format("%02d/%02d/%04d",
                 fecha.getDayOfMonth(), fecha.getMonthValue(), fecha.getYear());
+    }
+
+    public void setDatosIniciales(Object[] objetos) {
+        this.empresas.clear();
+        this.terminales.clear();
+        this.buses.clear();
+
+        for (Object obj : objetos) {
+            if (obj instanceof modelo.Empresa) {
+                this.empresas.add((modelo.Empresa) obj);
+            } else if (obj instanceof modelo.Terminal) {
+                this.terminales.add((modelo.Terminal) obj);
+            } else if (obj instanceof modelo.Bus) {
+                this.buses.add((modelo.Bus) obj);
+            }
+        }
     }
 }
