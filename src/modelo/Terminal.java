@@ -1,8 +1,10 @@
 package modelo;
 
-//Autores: Juan Bustos
+//Autores: Juan Bustos- Yamilet Arias
 
-public class Terminal {
+import java.io.Serializable;
+
+public class Terminal implements Serializable {
 
     private String nombre;
     private String comuna;
