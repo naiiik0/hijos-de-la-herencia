@@ -1,25 +1,37 @@
 package modelo;
 
-public class Terminal {
+//Autores: Juan Bustos- Yamilet Arias
+
+import java.io.Serializable;
+
+public class Terminal implements Serializable {
 
     private String nombre;
-    private Direccion direccion;
+    private String comuna;
 
-    public Terminal(String nombre, Direccion direccion) {
+    public Terminal(String nombre, String comuna) {
         this.nombre = nombre;
-        this.direccion = direccion;
+        this.comuna = comuna;
     }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public Direccion getDireccion() { return direccion; }
-    public void setDireccion(Direccion direccion) { this.direccion = direccion; }
+    public String getComuna() {
+        return comuna;
+    }
 
-    public String getComuna() { return direccion.getComuna(); }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setComuna(String comuna) {
+        this.comuna = comuna;
+    }
 
     @Override
     public String toString() {
-        return nombre + " - " + direccion.toString();
+        return nombre + " - " + comuna;
     }
 }
