@@ -49,7 +49,11 @@ public class UISVP {
             System.out.println("  11) Listar empresas");
             System.out.println("  12) Listar llegadas/salidas de terminal");
             System.out.println("  13) Listar ventas de empresa");
-            System.out.println("  14) Salir");
+            System.out.println("  14) Generar pasajes venta");
+            System.out.println("  15) Leer datos iniciales");
+            System.out.println("  16) Guardar datos del sistema");
+            System.out.println("  17) Leer datos del sistema");
+            System.out.println("  18) Salir");
             System.out.println("------------------------------------------");
             System.out.print("..:: Ingrese número de opción: ");
             try {
@@ -71,11 +75,15 @@ public class UISVP {
                 case 11: listEmpresas(); break;
                 case 12: listLlegadasSalidasTerminal(); break;
                 case 13: listVentasEmpresa(); break;
-                case 14: System.out.println("...:::: Hasta pronto ::::...."); break;
-                default: System.out.println("  [!] Opción inválida. Ingrese un número entre 1 y 14.");
+                case 14: savePasajesVenta(); break;
+                case 15: readDatosIniciales(); break;
+                case 16: saveControladores(); break;
+                case 17: readControladores(); break;
+                case 18: System.out.println("...:::: Hasta pronto ::::....." ); break;
+                default: System.out.println("  [!] Opción inválida. Ingrese un número entre 1 y 18.");
             }
             System.out.println();
-        } while (opcion != 14);
+        } while (opcion != 18);
     }
 
     private void crearEmpresa() {
@@ -681,5 +689,21 @@ public class UISVP {
             System.out.println(fila.toString());
         }
         System.out.println("  *---*---*---*---*");
+    }
+
+    private void savePasajesVenta() {
+
+    }
+
+    private void readDatosIniciales() {
+
+    }
+
+    private void saveControladores() {
+
+    }
+
+    private void readControladores() {
+
     }
 }
