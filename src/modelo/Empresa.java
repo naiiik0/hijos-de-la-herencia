@@ -3,9 +3,10 @@ import utilidades.IdPersona;
 import utilidades.Nombre;
 import utilidades.Rut;
 
+import java.io.Serializable;
 import java.util.ArrayList;
  // Autor: Yamilet Arias
-public class Empresa {
+public class Empresa implements Serializable {
     private Rut rut;
     private String nombre;
     private String url;

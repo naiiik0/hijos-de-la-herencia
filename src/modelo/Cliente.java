@@ -2,10 +2,12 @@ package modelo;
 
 import utilidades.IdPersona;
 import utilidades.Nombre;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 //Autores: Sofia Lagos - Nicolás Figueroa
-public class Cliente extends Persona{
+public class Cliente extends Persona implements Serializable {
     private String email;
     private List<Venta> ventas;
 

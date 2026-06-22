@@ -3,7 +3,9 @@ package modelo;
 import utilidades.IdPersona;
 import utilidades.Nombre;
 
-public abstract class Tripulante extends Persona {
+import java.io.Serializable;
+
+public abstract class Tripulante extends Persona implements Serializable {
     private Direccion direccion;
 
     public Tripulante(IdPersona id, Nombre nom, Direccion dir){

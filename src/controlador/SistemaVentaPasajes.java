@@ -261,35 +261,25 @@ public class SistemaVentaPasajes {
         return resultado;
     }
     public Optional<Cliente> findCliente(IdPersona id) {
-        for (Cliente c : clientes) {
-            if (c.getIdPersona().equals(id)) return Optional.of(c);
-        }
-        return Optional.empty();
+        return clientes.stream().filter(c -> c.getIdPersona().equals(id)).findFirst();
     }
 
     public Optional<Venta> findVentaIdDocumento(String idDocumento, TipoDocumento tipo) {
-        for (Venta v : ventas) {
-            if (v.getIdDocumento().equals(idDocumento) && v.getTipo() == tipo) return Optional.of(v);
-        }
-        return Optional.empty();
+        return ventas.stream()
+                .filter(v -> v.getIdDocumento().equals(idDocumento) && v.getTipo() == tipo)
+                .findFirst();
     }
 
     public Optional<Viaje> findViaje(LocalDate fecha, LocalTime hora, String patBus) {
-        for (Viaje v : viajes) {
-            if (v.getFecha().equals(fecha)
-                    && v.getHora().equals(hora)
-                    && v.getBus().getPatente().equalsIgnoreCase(patBus)) {
-                return Optional.of(v);
-            }
-        }
-        return Optional.empty();
+        return viajes.stream()
+                .filter(v -> v.getFecha().equals(fecha)
+                        && v.getHora().equals(hora)
+                        && v.getBus().getPatente().equalsIgnoreCase(patBus))
+                .findFirst();
     }
 
     public Optional<Pasajero> findPasajero(IdPersona id) {
-        for (Pasajero p : pasajeros) {
-            if (p.getIdPersona().equals(id)) return Optional.of(p);
-        }
-        return Optional.empty();
+        return pasajeros.stream().filter(p -> p.getIdPersona().equals(id)).findFirst();
     }
 
     public void readDatosIniciales() throws SVPException {
@@ -310,6 +300,30 @@ public class SistemaVentaPasajes {
         }
         ControladorEmpresas.getInstance().setDatosIniciales(objetos);
     }
+
+    public void generatePasajesVenta(String idDocumento, TipoDocumento tipo) throws SVPException {
+        Optional<Venta> venta = findVentaIdDocumento(idDocumento, tipo);
+        if (venta.isEmpty()) {
+            throw new SVPException("No existe venta con el id y tipo de documento indicados");
+        }
+        String nombreArchivo = idDocumento + tipo.toString().toLowerCase() + ".txt";
+        persistencia.IOSVP.getInstance().savePasajesDeVenta(venta.get().getPasajes(), nombreArchivo);
+    }
+
+    public void saveDatosSistema() throws SVPException {
+        Object[] controladores = new Object[]{ControladorEmpresas.getInstance(), this};
+        persistencia.IOSVP.getInstance().saveControladores(controladores);
+    }
+
+    public void readDatosSistema() throws SVPException {
+        Object[] controladores = persistencia.IOSVP.getInstance().readControladores();
+
+        ControladorEmpresas instEmpresas = (ControladorEmpresas) controladores[0];
+        ControladorEmpresas.getInstance().setInstanciaPersistente(instEmpresas);
+
+        instancia = (SistemaVentaPasajes) controladores[1];
+    }
+
     // METODO CREADO PARA SIMPLIFICAR EL TRABAJO
     private String formatearFecha(LocalDate fecha) {
         return String.format("%02d/%02d/%04d",

@@ -151,54 +151,50 @@ public class ControladorEmpresas {
     }
 
     public Optional<Empresa> findEmpresa(Rut rut) {
-        for (Empresa e : empresas) {
-            if (e.getRut().equals(rut)) return Optional.of(e);
-        }
-        return Optional.empty();
+        return empresas.stream()
+                .filter(e -> e.getRut().equals(rut))
+                .findFirst();
     }
 
     public Optional<Bus> findBus(String patente) {
-        for (Bus b : buses) {
-            if (b.getPatente().equalsIgnoreCase(patente)) return Optional.of(b);
-        }
-        return Optional.empty();
+        return buses.stream()
+                .filter(b -> b.getPatente().equalsIgnoreCase(patente))
+                .findFirst();
     }
 
     public Optional<Terminal> findTerminalNombre(String nombre) {
-        for (Terminal t : terminales) {
-            if (t.getNombre().equalsIgnoreCase(nombre)) return Optional.of(t);
-        }
-        return Optional.empty();
+        return terminales.stream()
+                .filter(t -> t.getNombre().equalsIgnoreCase(nombre))
+                .findFirst();
     }
 
     public Optional<Terminal> findTerminalComuna(String comuna) {
-        for (Terminal t : terminales) {
-            if (t.getComuna().equalsIgnoreCase(comuna)) return Optional.of(t);
-        }
-        return Optional.empty();
+        return terminales.stream()
+                .filter(t -> t.getComuna().equalsIgnoreCase(comuna))
+                .findFirst();
     }
 
     public Optional<Conductor> findConductor(IdPersona id, Rut rutEmp) {
-        Optional<Empresa> emp = findEmpresa(rutEmp);
-        if (emp.isEmpty()) return Optional.empty();
-        for (Tripulante t : emp.get().getTripulantes()) {
-            if (t instanceof Conductor && t.getIdPersona().equals(id)) {
-                return Optional.of((Conductor) t);
-            }
-        }
-        return Optional.empty();
+        return findEmpresa(rutEmp)
+                .stream()
+                .flatMap(emp -> java.util.Arrays.stream(emp.getTripulantes()))
+                .filter(t -> t instanceof Conductor)
+                .filter(t -> t.getIdPersona().equals(id))
+                .map(t -> (Conductor) t)
+                .findFirst();
     }
 
+
     public Optional<Auxiliar> findAuxiliar(IdPersona id, Rut rutEmp) {
-        Optional<Empresa> emp = findEmpresa(rutEmp);
-        if (emp.isEmpty()) return Optional.empty();
-        for (Tripulante t : emp.get().getTripulantes()) {
-            if (t instanceof Auxiliar && t.getIdPersona().equals(id)) {
-                return Optional.of((Auxiliar) t);
-            }
-        }
-        return Optional.empty();
+        return findEmpresa(rutEmp)
+                .stream()
+                .flatMap(emp -> java.util.Arrays.stream(emp.getTripulantes()))
+                .filter(t -> t instanceof Auxiliar)
+                .filter(t -> t.getIdPersona().equals(id))
+                .map(t -> (Auxiliar) t)
+                .findFirst();
     }
+
 
     private String formatearFecha(LocalDate fecha) {
         return String.format("%02d/%02d/%04d",
@@ -219,5 +215,9 @@ public class ControladorEmpresas {
                 this.buses.add((modelo.Bus) obj);
             }
         }
+    }
+
+    public void setInstanciaPersistente(ControladorEmpresas inst) {
+        instancia = inst;
     }
 }
