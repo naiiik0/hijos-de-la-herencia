@@ -82,17 +82,16 @@ public class ControladorEmpresas {
     }
 
     public String[][] listEmpresas() {
-        String[][] resultado = new String[empresas.size()][6];
-        for (int i = 0; i < empresas.size(); i++) {
-            Empresa e = empresas.get(i);
-            resultado[i][0] = e.getRut().toString();
-            resultado[i][1] = e.getNombre();
-            resultado[i][2] = e.getUrl();
-            resultado[i][3] = String.valueOf(e.getTripulantes().length);
-            resultado[i][4] = String.valueOf(e.getBuses().length);
-            resultado[i][5] = String.valueOf(e.getVentas().length);
-        }
-        return resultado;
+        return empresas.stream()
+                .map(e -> new String[]{
+                        e.getRut().toString(),
+                        e.getNombre(),
+                        e.getUrl(),
+                        String.valueOf(e.getTripulantes().length),
+                        String.valueOf(e.getBuses().length),
+                        String.valueOf(e.getVentas().length)
+                })
+                .toArray(String[][]::new);
     }
 
     public String[][] listLlegadasSalidasTerminal(String nombreTerminal, LocalDate fecha) {
@@ -101,36 +100,36 @@ public class ControladorEmpresas {
             throw new SVPException("No existe terminal con el nombre indicado");
         }
         Terminal t = terminal.get();
-        ArrayList<String[]> filas = new ArrayList<>();
-        for (Bus b : buses) {
-            for (Viaje v : b.getViajes()) {
-                boolean esSalida = v.getTerminalSalida() != null
-                        && v.getTerminalSalida().getNombre().equalsIgnoreCase(t.getNombre())
-                        && v.getFecha().equals(fecha);
-                boolean esLlegada = v.getTerminalLlegada() != null
-                        && v.getTerminalLlegada().getNombre().equalsIgnoreCase(t.getNombre())
-                        && v.getFechaHoraTermino().toLocalDate().equals(fecha);
-                if (esSalida) {
-                    String[] fila = new String[5];
-                    fila[0] = "Salida";
-                    fila[1] = v.getHora().toString();
-                    fila[2] = v.getBus().getPatente();
-                    fila[3] = b.getEmpresa() != null ? b.getEmpresa().getNombre() : "";
-                    fila[4] = String.valueOf(v.getPasajes().size());
-                    filas.add(fila);
-                }
-                if (esLlegada) {
-                    String[] fila = new String[5];
-                    fila[0] = "Llegada";
-                    fila[1] = v.getFechaHoraTermino().toLocalTime().toString();
-                    fila[2] = v.getBus().getPatente();
-                    fila[3] = b.getEmpresa() != null ? b.getEmpresa().getNombre() : "";
-                    fila[4] = String.valueOf(v.getPasajes().size());
-                    filas.add(fila);
-                }
-            }
-        }
-        return filas.toArray(new String[0][]);
+        return buses.stream()
+                .flatMap(b -> b.getViajes().stream()
+                        .flatMap(v -> {
+                            java.util.List<String[]> filas = new java.util.ArrayList<>();
+                            if (v.getTerminalSalida() != null
+                                    && v.getTerminalSalida().getNombre().equalsIgnoreCase(t.getNombre())
+                                    && v.getFecha().equals(fecha)) {
+                                filas.add(new String[]{
+                                        "Salida",
+                                        v.getHora().toString(),
+                                        v.getBus().getPatente(),
+                                        b.getEmpresa() != null ? b.getEmpresa().getNombre() : "",
+                                        String.valueOf(v.getPasajes().size())
+                                });
+                            }
+                            if (v.getTerminalLlegada() != null
+                                    && v.getTerminalLlegada().getNombre().equalsIgnoreCase(t.getNombre())
+                                    && v.getFechaHoraTermino().toLocalDate().equals(fecha)) {
+                                filas.add(new String[]{
+                                        "Llegada",
+                                        v.getFechaHoraTermino().toLocalTime().toString(),
+                                        v.getBus().getPatente(),
+                                        b.getEmpresa() != null ? b.getEmpresa().getNombre() : "",
+                                        String.valueOf(v.getPasajes().size())
+                                });
+                            }
+                            return filas.stream();
+                        })
+                )
+                .toArray(String[][]::new);
     }
 
     public String[][] listVentasEmpresa(Rut rutEmp) {
@@ -138,16 +137,14 @@ public class ControladorEmpresas {
         if (emp.isEmpty()) {
             throw new SVPException("No existe empresa con el rut indicado");
         }
-        Venta[] ventas = emp.get().getVentas();
-        String[][] resultado = new String[ventas.length][4];
-        for (int i = 0; i < ventas.length; i++) {
-            Venta v = ventas[i];
-            resultado[i][0] = formatearFecha(v.getFecha());
-            resultado[i][1] = v.getTipo().toString().toLowerCase();
-            resultado[i][2] = "$" + v.getMontoPagado();
-            resultado[i][3] = v.getTipoPago() != null ? v.getTipoPago() : "-";
-        }
-        return resultado;
+        return java.util.Arrays.stream(emp.get().getVentas())
+                .map(v -> new String[]{
+                        formatearFecha(v.getFecha()),
+                        v.getTipo().toString().toLowerCase(),
+                        "$" + v.getMontoPagado(),
+                        v.getTipoPago() != null ? v.getTipoPago() : "-"
+                })
+                .toArray(String[][]::new);
     }
 
     public Optional<Empresa> findEmpresa(Rut rut) {
