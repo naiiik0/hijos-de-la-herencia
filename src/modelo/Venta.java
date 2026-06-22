@@ -1,9 +1,10 @@
 package modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 //Autor: Yamilet Arias
-public class Venta {
+public class Venta implements Serializable {
 
     private String idDocumento;
     private TipoDocumento tipo;
@@ -48,9 +49,7 @@ public class Venta {
         return total;
     }
     public boolean pagaMonto() {
-        if (pago != null) {
-            return false;
-        }
+        if (pago != null) return false;
         pago = new PagoEfectivo(getMonto());
         return true;
     }

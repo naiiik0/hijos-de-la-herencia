@@ -3,8 +3,10 @@ package modelo;
 import utilidades.IdPersona;
 import utilidades.Nombre;
 
+import java.io.Serializable;
+
 //Autor: Sofia Lagos
-public class Pasajero extends Persona{
+public class Pasajero extends Persona implements Serializable {
     private Nombre nomContacto;
     private String fonoContacto;
 
