@@ -212,22 +212,22 @@ public class IOSVP {
         }
     }
 
-    private Optional<Empresa> findEmpresa(List<Empresa> list, Rut rut) {
+    public  Optional<Empresa> findEmpresa(List<Empresa> list, Rut rut) {
         return list.stream().filter(e -> e.getRut().equals(rut)).findFirst();
     }
-    private Optional<Bus> findBus(List<Bus> buses, String patente) {
+    public  Optional<Bus> findBus(List<Bus> buses, String patente) {
         return buses.stream()
                 .filter(b -> b.getPatente().equals(patente))
                 .findFirst();
     }
 
-    private Optional<Terminal> findTerminal(List<Terminal> terminales, String nombre) {
+    public  Optional<Terminal> findTerminal(List<Terminal> terminales, String nombre) {
         return terminales.stream()
                 .filter(t -> t.getNombre().equals(nombre))
                 .findFirst();
     }
 
-    private Optional<Tripulante> findTripulante(Empresa empresa, Rut id, String rol) {
+    public  Optional<Tripulante> findTripulante(Empresa empresa, Rut id, String rol) {
         return Arrays.stream(empresa.getTripulantes())
                 .filter(t -> t.getIdPersona().equals(id))
                 .filter(t -> {

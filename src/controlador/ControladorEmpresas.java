@@ -66,7 +66,7 @@ public class ControladorEmpresas {
         }
         boolean contratado = emp.get().addConductor(id, nom, dir);
         if (!contratado) {
-            throw new SVPException("Ya está contratado conductor/auxiliar con el id dado en la empresa señalada");
+            throw new SVPException("Ya está contratado conductor con el id indicado en la empresa señalada");
         }
     }
 
@@ -77,7 +77,7 @@ public class ControladorEmpresas {
         }
         boolean contratado = emp.get().addAuxiliar(id, nom, dir);
         if (!contratado) {
-            throw new SVPException("Ya está contratado auxiliar/conductor con el id dado en la empresa señalada");
+            throw new SVPException("Ya está contratado auxiliar con el id indicado en la empresa señalada");
         }
     }
 
