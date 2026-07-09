@@ -1,17 +1,20 @@
 package modelo;
 
-public class Direccion {
+import java.io.Serializable;
+// Juan Bustos Segura
+public class Direccion implements Serializable {
+
     private String calle;
     private int numero;
     private String comuna;
 
-    public Direccion(String calle, int numero, String comuna){
+    public Direccion(String calle, int numero, String comuna) {
         this.calle = calle;
         this.numero = numero;
         this.comuna = comuna;
     }
 
-    public String getCalle(){
+    public String getCalle() {
         return calle;
     }
 
@@ -23,18 +26,20 @@ public class Direccion {
         return comuna;
     }
 
-    @Override
-    public String toString() {
-        return calle + " " + numero + ", " + comuna;
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public void setComuna(String comuna) {
+        this.comuna = comuna;
     }
 
     @Override
-    public boolean equals(Object otro) {
-        if (this == otro) return true;
-        if (!(otro instanceof Direccion)) return false;
-        Direccion d = (Direccion) otro;
-        return numero == d.numero &&
-                calle.equals(d.calle) &&
-                comuna.equals(d.comuna);
+    public String toString() {
+        return calle + " " + numero + ", " + comuna;
     }
 }

@@ -3,10 +3,11 @@ package modelo;
 import utilidades.IdPersona;
 import utilidades.Nombre;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Auxiliar extends Tripulante {
+public class Auxiliar extends Tripulante implements Serializable {
 
     private List<Viaje> viajes = new ArrayList<>();
 

@@ -1,12 +1,13 @@
 package utilidades;
 
+import java.io.Serializable;
 import java.util.Objects;
 //Autor: Nicolás Figueroa
-public class Nombre {
-private Tratamiento tratamiento;
-private String nombres;
-private String apellidoPaterno;
-private String apellidoMaterno;
+public class Nombre implements Serializable {
+    private Tratamiento tratamiento;
+    private String nombres;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
 
     public Nombre(Tratamiento tratamiento, String nombres, String apellidoPaterno, String apellidoMaterno) {
         this.tratamiento = tratamiento;
