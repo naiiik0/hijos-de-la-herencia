@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.time.LocalDate;
 import java.time.LocalTime;
-// autor; Yamilet Arias
+// autor:Yamilet Arias
 public class VentaPasaje extends JFrame {
     private JPanel panelPrincipal;
     private JTextField txtIDDocumento;
