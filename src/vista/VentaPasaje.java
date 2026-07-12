@@ -35,20 +35,19 @@ public class VentaPasaje extends JFrame {
     private DefaultTableModel modeloViajes;
     private DefaultTableModel modeloAsientos;
 
-    // Datos de la venta
     private String idDocumentoActual;
     private TipoDocumento tipoDocumentoActual;
     private LocalDate fechaViaje;
     private LocalTime horaViaje;
     private String patenteBus;
 
-    public VentaPasaje() {
+    public VentaPasaje(JFrame parent) {
         sistema = SistemaVentaPasajes.getInstance();
         setContentPane(panelPrincipal);
         setTitle("Venta de Pasajes");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(parent);
         inicializarCombos();
         inicializarTablas();
         bloquearControles();
@@ -267,30 +266,15 @@ public class VentaPasaje extends JFrame {
     }
     private void generarPasajes() {
         try {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Pasajes generados correctamente."
-            );
-
+            sistema.generatePasajesVenta(idDocumentoActual, tipoDocumentoActual);
+            JOptionPane.showMessageDialog(this, "Pasajes generados correctamente.");
             btnGenerarPasaje.setEnabled(false);
-
-        }
-        catch (SVPException ex){
-            JOptionPane.showMessageDialog(
-                    this,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
-        catch (Exception ex){
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Error al generar los pasajes.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+        } catch (SVPException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al generar los pasajes.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
