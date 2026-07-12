@@ -662,11 +662,9 @@ public class UISVP {
             sistema.readDatosSistema();
             sistema = SistemaVentaPasajes.getInstance();
             controladorEmpresas = ControladorEmpresas.getInstance();
-
-            System.out.println();
-            System.out.println("...::::: Datos del sistema restaurados exitosamente :::::....");
+            System.out.println("Datos del sistema cargados correctamente.");
         } catch (SVPException e) {
-            System.out.println("  [!] " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 

@@ -56,8 +56,9 @@ public class Pasaje implements Serializable {
                 viaje.getFecha().getMonthValue(),
                 viaje.getFecha().getYear());
         String hora = viaje.getHora().toString();
-        int valorPagado = venta.getMontoPagado() > 0
-                ? venta.getMontoPagado() / venta.getPasajes().length
+        int nroPasajes = venta.getPasajes().length;
+        int valorPagado = (venta.getMontoPagado() > 0 && nroPasajes > 0)
+                ? venta.getMontoPagado() / nroPasajes
                 : viaje.getPrecio();
 
         StringBuilder sb = new StringBuilder();

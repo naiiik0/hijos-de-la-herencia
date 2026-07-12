@@ -153,7 +153,9 @@ public class IOSVP {
                 int precio = parseInt(p[2]);
                 int duracion = parseInt(p[3]);
 
-                Bus bus        = findBus(buses, p[4]).orElse(null);
+                Optional<Bus> busOpt = findBus(buses, p[4]);
+                if (busOpt.isEmpty()) continue;
+                Bus bus        = busOpt.get();
                 Auxiliar aux   = (Auxiliar)  findTripulante(bus.getEmpresa(), Rut.of(p[5]), "Auxiliar").orElse(null);
                 Conductor cond = (Conductor) findTripulante(bus.getEmpresa(), Rut.of(p[6]), "Conductor").orElse(null);
                 Terminal sal   = findTerminal(terminales, p[7]).orElse(null);
