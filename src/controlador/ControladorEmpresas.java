@@ -11,6 +11,7 @@ import java.util.Optional;
 public class ControladorEmpresas {
 
     private static ControladorEmpresas instancia;
+    public String[][] listVentas;
 
     private ArrayList<Empresa> empresas;
     private ArrayList<Bus> buses;

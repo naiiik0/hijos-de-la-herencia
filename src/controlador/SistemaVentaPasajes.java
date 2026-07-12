@@ -54,7 +54,7 @@ public class SistemaVentaPasajes {
     }
 
     public void createViaje(LocalDate fecha, LocalTime hora, int precio, int duracion,
-                            String patBus, String[] idTripulantes, String[] comunas) {
+                            String patBus, IdPersona[] idTripulantes, String[] comunas) {
         ControladorEmpresas ce = ControladorEmpresas.getInstance();
 
         Optional<Bus> bus = ce.findBus(patBus);
@@ -308,5 +308,8 @@ public class SistemaVentaPasajes {
     private String formatearFecha(LocalDate fecha) {
         return String.format("%02d/%02d/%04d",
                 fecha.getDayOfMonth(), fecha.getMonthValue(), fecha.getYear());
+    }
+
+    public void iniciaVenta(String idDocumentoActual, TipoDocumento tipoDocumentoActual, LocalDate now, LocalDate fechaViajeActual, String text, String text1, IdPersona idCliente, int nroPasajes) {
     }
 }
