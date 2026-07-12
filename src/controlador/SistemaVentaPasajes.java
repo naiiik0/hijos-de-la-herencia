@@ -6,13 +6,14 @@ import utilidades.IdPersona;
 import utilidades.Nombre;
 import utilidades.Rut;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
 //Autores: Juan Bustos - Nicolás Figueroa
-public class SistemaVentaPasajes {
+public class SistemaVentaPasajes implements Serializable {
     private static SistemaVentaPasajes instancia;
     private ArrayList<Cliente> clientes;
     private ArrayList<Pasajero> pasajeros;

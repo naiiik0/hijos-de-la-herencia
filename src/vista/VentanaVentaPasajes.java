@@ -1,4 +1,3 @@
-// Autor: (tu nombre)
 package vista;
 
 import controlador.SistemaVentaPasajes;
@@ -11,6 +10,9 @@ import javax.swing.table.DefaultTableModel;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+
+// Hecho por Nicolas Figueroa
+
 
 public class VentanaVentaPasajes extends JFrame {
 

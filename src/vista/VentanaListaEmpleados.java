@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// Hecho por Sofia Lagos
 
 public class VentanaListaEmpleados extends JFrame {
     private JComboBox comboEmpresas;

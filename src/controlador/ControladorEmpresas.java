@@ -4,11 +4,13 @@ import modelo.*;
 import utilidades.Rut;
 import utilidades.IdPersona;
 import utilidades.Nombre;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class ControladorEmpresas {
+public class ControladorEmpresas implements Serializable {
 
     private static ControladorEmpresas instancia;
 

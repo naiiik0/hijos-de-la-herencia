@@ -45,7 +45,7 @@ public class MainFrame extends JFrame {
         btnViaje.addActionListener(e -> new VentanaCrearViaje(this).setVisible(true));
         btnConsulta1.addActionListener(e -> new VentanaListaEmpleados(this).setVisible(true));
         btnConsulta2.addActionListener(e -> new VentanaViajesDisponibles(this).setVisible(true));
-        btnConsulta3.addActionListener(e -> new VentanaConsultaVentasEmpresa(this).setVisible(true));
+        btnConsulta3.addActionListener(e -> new VentanaConsultaEmpresas(this).setVisible(true));
     }
 
     private void leerDatosIniciales() {

@@ -11,6 +11,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 
+// Hecho por Nicolas Figueroa
+
+
 public class VentanaCrearViaje extends JFrame{
     private JButton crearButton;
     private JButton cancelarButton;
@@ -155,19 +158,4 @@ public class VentanaCrearViaje extends JFrame{
                     "Error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    public static void main(String[] args) {
-        try {
-            Object[] datos = persistencia.IOSVP.getInstance().readDatosIniciales();
-            ControladorEmpresas.getInstance().setDatosIniciales(datos);
-        } catch (Exception e) {
-            System.out.println("Aviso: No se pudieron precargar datos de texto: " + e.getMessage());
-        }
-
-        VentanaCrearViaje v = new VentanaCrearViaje(null);
-        v.setVisible(true);
-    }
-
-
-
 }

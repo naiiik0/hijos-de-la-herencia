@@ -13,7 +13,7 @@ public class VentanaConsultaEmpresas extends JFrame{
 
     private ControladorEmpresas controlador;
 
-    public VentanaConsultaEmpresas() {
+    public VentanaConsultaEmpresas(JFrame parent) {
         this.controlador = ControladorEmpresas.getInstance();
 
         setContentPane(panelPrincipal);
@@ -54,23 +54,6 @@ public class VentanaConsultaEmpresas extends JFrame{
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error en Consulta", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public static void main(String[] args) {
-        try {
-
-            Object[] datosIniciales = persistencia.IOSVP.getInstance().readDatosIniciales();
-
-            ControladorEmpresas.getInstance().setDatosIniciales(datosIniciales);
-
-            javax.swing.SwingUtilities.invokeLater(() -> {
-                vista.VentanaConsultaEmpresas ventana = new vista.VentanaConsultaEmpresas();
-                ventana.setVisible(true);
-            });
-
-        } catch (Exception e) {
-            System.out.println("Error al cargar los datos iniciales: " + e.getMessage());
         }
     }
 

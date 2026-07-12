@@ -4,7 +4,7 @@ import controlador.SistemaVentaPasajes;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-
+// Hecho por Sofia Lagos
 public class VentanaViajesDisponibles extends JFrame {
     private JTable tablaViajes;
     private JPanel panelPrincipal;
