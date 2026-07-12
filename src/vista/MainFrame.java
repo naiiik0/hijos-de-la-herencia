@@ -41,12 +41,11 @@ public class MainFrame extends JFrame {
         btnCargar.addActionListener(e -> cargarDatos());
         btnSalir.addActionListener(e -> System.exit(0));
 
-        // Descomentar cuando crees las otras ventanas:
-        // btnVenta.addActionListener(e -> new VentaPasajesFrame(this).setVisible(true));
+        btnVenta.addActionListener(e -> new VentanaVentaPasajes(this).setVisible(true));
         btnViaje.addActionListener(e -> new VentanaCrearViaje(this).setVisible(true));
         btnConsulta1.addActionListener(e -> new VentanaListaEmpleados(this).setVisible(true));
         btnConsulta2.addActionListener(e -> new VentanaViajesDisponibles(this).setVisible(true));
-        // btnConsulta3.addActionListener(e -> new VentasEmpresaFrame(this).setVisible(true));
+        btnConsulta3.addActionListener(e -> new VentanaConsultaVentasEmpresa(this).setVisible(true));
     }
 
     private void leerDatosIniciales() {

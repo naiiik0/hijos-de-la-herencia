@@ -30,10 +30,8 @@ public class VentanaConsultaEmpresas extends JFrame{
 
     private void configurarTabla() {
         try {
-            //títulos de las columnas
             String[] columnas = {"RUT", "Nombre", "URL", "N° Tripulantes", "N° Buses", "N° Ventas"};
 
-            // matriz de datos String[][] desde tu controlador
             String[][] datos = controlador.listEmpresas();
 
             if (datos == null || datos.length == 0) {
@@ -43,7 +41,6 @@ public class VentanaConsultaEmpresas extends JFrame{
                 return;
             }
 
-            // crear el modelo de la tabla pasándole los datos y las columnas
             DefaultTableModel modelo = new DefaultTableModel(datos, columnas) {
                 @Override
                 public boolean isCellEditable(int row, int column) {

@@ -54,12 +54,10 @@ public class VentanaCrearViaje extends JFrame{
             try {
                 Rut rut = Rut.of(emp[0]);
                 controlador.findEmpresa(rut).ifPresent(empresa -> {
-                    // Buses
                     for (Bus b : empresa.getBuses()) {
                         comboBus.addItem(b.getPatente() + " - " + b.getModelo()
                                 + " (" + empresa.getNombre() + ")");
                     }
-                    // Tripulantes
                     for (Tripulante t : empresa.getTripulantes()) {
                         String item = t.getIdPersona().toString() + " - "
                                 + t.getNombreCompleto().toString()
@@ -71,7 +69,6 @@ public class VentanaCrearViaje extends JFrame{
             } catch (Exception ignored) {}
         }
 
-        // Terminales desde viajes existentes
         String[][] viajes = sistema.listViajes();
         if (viajes != null) {
             for (String[] v : viajes) {
