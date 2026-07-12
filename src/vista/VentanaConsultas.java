@@ -36,13 +36,13 @@ public class VentanaConsultas extends JFrame {
 
         tabbedPane = new JTabbedPane();
 
-        // Pestaña 1: Viajes
+        //  Viajes
         tabbedPane.addTab("Listado de Viajes", crearPanelViajes());
 
-        // Pestaña 2: Ventas
+        //  Ventas
         tabbedPane.addTab("Listado de Ventas", crearPanelVentas());
 
-        // Pestaña 3: Empresas
+        //  Empresas
         tabbedPane.addTab("Listado de Empresas", crearPanelEmpresas());
 
         add(tabbedPane, BorderLayout.CENTER);
