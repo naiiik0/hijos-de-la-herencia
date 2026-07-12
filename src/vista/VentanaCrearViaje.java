@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.ControladorEmpresas;
+import controlador.SistemaVentaPasajes;
 import excepciones.SVPException;
 import modelo.*;
 import utilidades.Rut;
@@ -9,7 +10,6 @@ import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 
 public class VentanaCrearViaje extends JFrame{
     private JButton crearButton;
@@ -25,16 +25,19 @@ public class VentanaCrearViaje extends JFrame{
     private JComboBox comboBus;
     private JPanel panelPrincipal;
 
-    private static ControladorEmpresas controlador;
+    private ControladorEmpresas controlador;
+    private SistemaVentaPasajes sistema;
 
-    public VentanaCrearViaje() {
-        this.controlador = ControladorEmpresas.getInstance();
+    public VentanaCrearViaje(JFrame parent) {
+        controlador = ControladorEmpresas.getInstance();
+        sistema = SistemaVentaPasajes.getInstance();
         setContentPane(panelPrincipal);
         setTitle("B.4. VENTANA DE CREACIÓN DE UN VIAJE");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(parent);
         ListasDesplegables();
+        asignarAcciones();
     }
 
     private void ListasDesplegables() {
@@ -44,91 +47,115 @@ public class VentanaCrearViaje extends JFrame{
         comboAuxiliar.removeAllItems();
         comboConductor.removeAllItems();
 
-        // poblar combo de Bus
-        ArrayList<Bus> busesExistentes = controlador.getBuses();
-        for (Bus b : busesExistentes) {
-            comboBus.addItem(b.getPatente() + " - " + b.getModelo());
-        }
+        String[][] empresas = controlador.listEmpresas();
+        if (empresas == null) return;
 
-        // poblar combos de Terminales
-        ArrayList<Terminal> terminalesExistentes = controlador.getTerminales();
-        for (Terminal t : terminalesExistentes) {
-            comboTerSalida.addItem(t.getNombre());
-            comboTerLlegada.addItem(t.getNombre());
-        }
-
-        // 4poblar combo de Auxiliares
-        for (Bus b : busesExistentes) {
-            Empresa emp = b.getEmpresa();
-            if (emp != null && emp.getTripulantes() != null) {
-                for (Tripulante t : emp.getTripulantes()) {
-                    if (t instanceof Auxiliar) {
-                        String itemAuxiliar = t.getIdPersona().toString() + " - " + t.getNombre().toString();
-                        boolean yaExiste = false;
-                        for (int i = 0; i < comboAuxiliar.getItemCount(); i++) {
-                            if (comboAuxiliar.getItemAt(i).equals(itemAuxiliar)) {
-                                yaExiste = true;
-                                break;
-                            }
-                        }
-                        if (!yaExiste) {
-                            comboAuxiliar.addItem(itemAuxiliar);
-                        }
+        for (String[] emp : empresas) {
+            try {
+                Rut rut = Rut.of(emp[0]);
+                controlador.findEmpresa(rut).ifPresent(empresa -> {
+                    // Buses
+                    for (Bus b : empresa.getBuses()) {
+                        comboBus.addItem(b.getPatente() + " - " + b.getModelo()
+                                + " (" + empresa.getNombre() + ")");
                     }
-                }
+                    // Tripulantes
+                    for (Tripulante t : empresa.getTripulantes()) {
+                        String item = t.getIdPersona().toString() + " - "
+                                + t.getNombreCompleto().toString()
+                                + " (" + empresa.getNombre() + ")";
+                        if (t instanceof Auxiliar) comboAuxiliar.addItem(item);
+                        else if (t instanceof Conductor) comboConductor.addItem(item);
+                    }
+                });
+            } catch (Exception ignored) {}
+        }
+
+        // Terminales desde viajes existentes
+        String[][] viajes = sistema.listViajes();
+        if (viajes != null) {
+            for (String[] v : viajes) {
+                agregarSiNoExiste(comboTerSalida, v[6]);
+                agregarSiNoExiste(comboTerLlegada, v[6]);
+                agregarSiNoExiste(comboTerSalida, v[7]);
+                agregarSiNoExiste(comboTerLlegada, v[7]);
             }
         }
     }
 
+    private void asignarAcciones() {
+        crearButton.addActionListener(e -> registrarViaje());
+        cancelarButton.addActionListener(e -> dispose());
+    }
+
+    private void agregarSiNoExiste(JComboBox<String> combo, String item) {
+        if (item == null || item.isEmpty()) return;
+        for (int i = 0; i < combo.getItemCount(); i++) {
+            if (combo.getItemAt(i).equals(item)) return;
+        }
+        combo.addItem(item);
+    }
+
     private void registrarViaje() {
         try {
+            String fechaStr = txtFecha.getText().trim();
+            String horaStr = txtHora.getText().trim();
+            String precioStr = txtPrecio.getText().trim();
+            String duracionStr = txtDuracion.getText().trim();
 
-            String busSeleccionado = (String) comboBus.getSelectedItem();
-            if (busSeleccionado == null) throw new SVPException("Debe seleccionar un bus.");
-            String patente = busSeleccionado.split(" - ")[0];
+            if (fechaStr.isEmpty() || horaStr.isEmpty() || precioStr.isEmpty() || duracionStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-            String termSalida = (String) comboTerSalida.getSelectedItem();
-            String termLlegada = (String) comboTerLlegada.getSelectedItem();
+            LocalDate fecha = LocalDate.parse(fechaStr);
+            LocalTime hora = LocalTime.parse(horaStr);
+            int precio = Integer.parseInt(precioStr);
+            int duracion = Integer.parseInt(duracionStr);
 
-            String auxiliarSeleccionado = (String) comboAuxiliar.getSelectedItem();
-            if (auxiliarSeleccionado == null) throw new SVPException("Debe seleccionar un auxiliar.");
-            String rutAuxStr = auxiliarSeleccionado.split(" - ")[0];
+            if (precio <= 0 || duracion <= 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Precio y duración deben ser mayores a 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-            Bus busReal = controlador.findBus(patente)
-                    .orElseThrow(() -> new SVPException("Bus no encontrado en el sistema."));
+            String busSeleccionado  = (String) comboBus.getSelectedItem();
+            String auxSeleccionado  = (String) comboAuxiliar.getSelectedItem();
+            String condSeleccionado = (String) comboConductor.getSelectedItem();
+            String termSalida       = (String) comboTerSalida.getSelectedItem();
+            String termLlegada      = (String) comboTerLlegada.getSelectedItem();
 
-            Terminal salidaReal = controlador.findTerminalNombre(termSalida)
-                    .orElseThrow(() -> new SVPException("Terminal de salida inválido."));
+            if (busSeleccionado == null || auxSeleccionado == null
+                    || condSeleccionado == null || termSalida == null || termLlegada == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Debe seleccionar bus, auxiliar, conductor y terminales.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-            Terminal llegadaReal = controlador.findTerminalNombre(termLlegada)
-                    .orElseThrow(() -> new SVPException("Terminal de llegada inválido."));
+            String patente    = busSeleccionado.split(" - ")[0];
+            String rutAuxStr  = auxSeleccionado.split(" - ")[0];
+            String rutCondStr = condSeleccionado.split(" - ")[0];
 
-            Rut rutAux = Rut.of(rutAuxStr);
+            sistema.createViaje(fecha, hora, precio, duracion, patente,
+                    new String[]{rutAuxStr, rutCondStr},
+                    new String[]{termSalida, termLlegada});
 
-            Auxiliar auxiliarReal = (Auxiliar) controlador.findAuxiliar(rutAux, busReal.getEmpresa().getRut())
-                    .orElseThrow(() -> new SVPException("El auxiliar no pertenece a la empresa de este bus."));
-
-            LocalDate fecha = LocalDate.parse(txtFecha.getText().trim());
-            LocalTime hora = LocalTime.parse(txtHora.getText().trim());
-            int precio = Integer.parseInt(txtPrecio.getText().trim());
-            int duracion = Integer.parseInt(txtDuracion.getText().trim());
-
-            Viaje nuevoViaje = new Viaje(fecha, hora, precio, duracion, busReal, salidaReal, llegadaReal, auxiliarReal);
-
-            busReal.addViaje(nuevoViaje);
-
-            JOptionPane.showMessageDialog(this, "Viaje registrado de forma exitosa.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Viaje registrado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             dispose();
 
         } catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(this, "Formato erróneo. Use AAAA-MM-DD para fecha y HH:MM para hora.", "Error de entrada", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Formato de fecha: AAAA-MM-DD  |  Hora: HH:MM", "Error de formato", JOptionPane.ERROR_MESSAGE);
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Precio y duración deben ser enteros.", "Error de entrada", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Precio y duración deben ser números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
         } catch (SVPException ex) {
-            // Manejo controlado de excepciones lanzado a través de tu clase de excepciones
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de validación", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    ex.getMessage(), "Error de validación", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Detalle del error: " + ex.getMessage(), "Error inesperado", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -140,7 +167,7 @@ public class VentanaCrearViaje extends JFrame{
             System.out.println("Aviso: No se pudieron precargar datos de texto: " + e.getMessage());
         }
 
-        VentanaCrearViaje v = new VentanaCrearViaje();
+        VentanaCrearViaje v = new VentanaCrearViaje(null);
         v.setVisible(true);
     }
 
