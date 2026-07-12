@@ -1,6 +1,9 @@
 package modelo;
+
+import java.io.Serializable;
+
 //Autor : Juan Bustos
-public class PagoTarjeta extends Pago {
+public class PagoTarjeta extends Pago implements Serializable {
 
     private long nroTarjeta;
 

@@ -1,7 +1,9 @@
 package utilidades;
 
+import java.io.Serializable;
+
 //Autor: Yamilet Arias
-public class Pasaporte implements IdPersona {
+public class Pasaporte implements IdPersona, Serializable {
 
     private String numero;
     private String nacionalidad;

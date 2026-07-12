@@ -1,7 +1,9 @@
 package utilidades;
 
+import java.io.Serializable;
+
 //Autor: Yamilet Arias - Nicolás Figueroa
-public class Rut implements IdPersona {
+public class Rut implements IdPersona, Serializable {
     private int numero;
     private char dv ;
 

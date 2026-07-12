@@ -29,7 +29,7 @@ public class IOSVP {
     }
     public Object[] readDatosIniciales() throws SVPException {
         ArrayList<Object> objetos = new ArrayList<>();
-        ArrayList<Empresa> empresas = new ArrayList<>();  // ← aquí
+        ArrayList<Empresa> empresas = new ArrayList<>();
         ArrayList<Terminal> terminales = new ArrayList<>();
         ArrayList<Bus> buses = new ArrayList<>();
 
@@ -137,6 +137,9 @@ public class IOSVP {
                 String[] p = linea.split(";");
                 Empresa emp = findEmpresa(empresas, Rut.of(p[4])).orElse(null);
                 Bus b = new Bus(p[0], p[1], p[2], parseInt(p[3]), emp);
+                if (emp != null) {
+                    emp.addBus(b);
+                }
                 buses.add(b);
                 objetos.add(b);
             }
@@ -157,6 +160,16 @@ public class IOSVP {
                 Terminal lleg  = findTerminal(terminales, p[8]).orElse(null);
 
                 Viaje v = new Viaje(fecha, hora, precio, duracion, bus, sal, lleg, aux);
+                if (cond != null) {
+                    v.addConductor(cond);
+                    cond.addViaje(v);
+                }
+                if (aux != null) {
+                    aux.addViaje(v);
+                }
+                if (bus != null) {
+                    bus.addViaje(v);
+                }
                 objetos.add(v);
             }
 
@@ -168,22 +181,53 @@ public class IOSVP {
         return objetos.toArray();
 
     }
-    private Optional<Empresa> findEmpresa(List<Empresa> list, Rut rut) {
+
+    public void saveControladores(Object[] controladores) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("SVPObjetos.obj"))) {
+            out.writeObject(controladores);
+        } catch (IOException e) {
+            throw new SVPException("No se puede abrir o crear el archivo SVPObjetos.obj o no se puede grabar en él");
+        }
+    }
+
+    public Object[] readControladores() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("SVPObjetos.obj"))) {
+            return (Object[]) in.readObject();
+        } catch (FileNotFoundException e) {
+            throw new SVPException("No existe o no se puede abrir el archivo SVPObjetos.obj");
+        } catch (IOException | ClassNotFoundException e) {
+            throw new SVPException("No se puede leer el archivo SVPObjetos.obj");
+        }
+    }
+
+    public void savePasajesDeVenta(Pasaje[] pasajes, String nombreArchivo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
+            for (Pasaje p : pasajes) {
+                writer.write(p.toString());
+                writer.newLine();
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new SVPException("No se puede abrir o crear el archivo " + nombreArchivo);
+        }
+    }
+
+    public  Optional<Empresa> findEmpresa(List<Empresa> list, Rut rut) {
         return list.stream().filter(e -> e.getRut().equals(rut)).findFirst();
     }
-    private Optional<Bus> findBus(List<Bus> buses, String patente) {
+    public  Optional<Bus> findBus(List<Bus> buses, String patente) {
         return buses.stream()
                 .filter(b -> b.getPatente().equals(patente))
                 .findFirst();
     }
 
-    private Optional<Terminal> findTerminal(List<Terminal> terminales, String nombre) {
+    public  Optional<Terminal> findTerminal(List<Terminal> terminales, String nombre) {
         return terminales.stream()
                 .filter(t -> t.getNombre().equals(nombre))
                 .findFirst();
     }
 
-    private Optional<Tripulante> findTripulante(Empresa empresa, Rut id, String rol) {
+    public  Optional<Tripulante> findTripulante(Empresa empresa, Rut id, String rol) {
         return Arrays.stream(empresa.getTripulantes())
                 .filter(t -> t.getIdPersona().equals(id))
                 .filter(t -> {
