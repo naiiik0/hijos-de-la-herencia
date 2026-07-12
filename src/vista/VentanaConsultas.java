@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class VentanaConsultas extends JFrame {
-
+// Juan Bustos
     private VentanaPrincipal ventanaPrincipal;
     private JTabbedPane tabbedPane;
 
